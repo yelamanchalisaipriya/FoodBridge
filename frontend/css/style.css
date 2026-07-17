@@ -1,0 +1,301 @@
+```css
+/* ================= GOOGLE FONTS ================= */
+
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+
+/* ================= GENERAL STYLING ================= */
+
+*{
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+    line-height: 1.6;
+}
+
+
+/* ================= NAVBAR ================= */
+
+nav{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background-color: #2E8B57;
+    padding: 20px 50px;
+}
+
+
+.logo h2{
+    color: white;
+}
+
+
+nav ul{
+    display: flex;
+    list-style: none;
+    gap: 25px;
+}
+
+
+nav ul li a{
+    text-decoration: none;
+    color: white;
+    font-weight: 500;
+    transition: 0.3s;
+}
+
+
+nav ul li a:hover{
+    color: #FFD700;
+}
+
+
+
+/* ================= HERO SECTION ================= */
+
+.hero{
+    text-align: center;
+    padding: 100px 30px;
+}
+
+
+.hero h1{
+    font-size: 55px;
+    color: #2E8B57;
+    margin-bottom: 20px;
+}
+
+
+.hero p{
+    font-size: 20px;
+    margin-bottom: 30px;
+}
+
+
+
+/* ================= BUTTONS ================= */
+
+button{
+    background-color: #2E8B57;
+    color: white;
+    border: none;
+    padding: 12px 25px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+
+button:hover{
+    background-color: #246B45;
+    transform: scale(1.05);
+}
+
+
+
+/* ================= SECTIONS ================= */
+
+section{
+    padding: 60px 50px;
+}
+
+
+h1{
+    margin-bottom: 20px;
+    color: #2E8B57;
+}
+
+
+h2{
+    margin-bottom: 15px;
+}
+
+
+p{
+    margin-bottom: 15px;
+}
+
+
+
+/* ================= ABOUT SECTION ================= */
+
+.about,
+.mission,
+.vision,
+.works,
+.statistics,
+.activities,
+.contact-details{
+    background-color: white;
+    margin: 30px;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+}
+
+
+
+/* ================= FORMS ================= */
+
+form{
+    margin-top: 20px;
+}
+
+
+input,
+textarea,
+select{
+    width: 100%;
+    padding: 12px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    outline: none;
+    font-size: 16px;
+}
+
+
+input:focus,
+textarea:focus,
+select:focus{
+    border: 2px solid #2E8B57;
+}
+
+
+
+/* ================= LOGIN & REGISTER ================= */
+
+.login-container,
+.register-container,
+.contact-container,
+.donate-container,
+.profile-container,
+.volunteer-container,
+.admin-dashboard{
+
+    width: 80%;
+    margin: 50px auto;
+    background-color: white;
+    padding: 40px;
+    border-radius: 15px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+
+}
+
+
+
+/* ================= FOOD CARDS ================= */
+
+.food-card,
+.request-card,
+.history-card,
+.donation-card{
+
+    background-color: white;
+    padding: 30px;
+    border-radius: 15px;
+    margin-top: 20px;
+    box-shadow: 0 0 15px rgba(0,0,0,0.1);
+    transition: 0.3s;
+
+}
+
+
+.food-card:hover,
+.request-card:hover,
+.history-card:hover,
+.donation-card:hover{
+
+    transform: translateY(-8px);
+
+}
+
+
+
+/* ================= LISTS ================= */
+
+ul li{
+    margin-bottom: 10px;
+}
+
+
+
+/* ================= FOOTER ================= */
+
+footer{
+
+    background-color: #2E8B57;
+    color: white;
+    text-align: center;
+    padding: 30px;
+    margin-top: 50px;
+
+}
+
+
+
+/* ================= TABLET RESPONSIVE ================= */
+
+@media(max-width:768px){
+
+    nav{
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    nav ul{
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .hero h1{
+        font-size: 40px;
+    }
+
+    section{
+        padding: 30px;
+    }
+
+}
+
+
+
+/* ================= MOBILE RESPONSIVE ================= */
+
+@media(max-width:480px){
+
+    .hero h1{
+        font-size: 32px;
+    }
+
+    .hero p{
+        font-size: 16px;
+    }
+
+    button{
+        width: 100%;
+        margin-top: 10px;
+    }
+
+    .login-container,
+    .register-container,
+    .contact-container,
+    .donate-container,
+    .profile-container,
+    .volunteer-container,
+    .admin-dashboard{
+
+        width: 95%;
+        padding: 25px;
+
+    }
+
+}
+```

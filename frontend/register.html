@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - FoodBridge</title>
+
+    <!-- CSS File -->
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- ================= NAVBAR ================= -->
+
+    <nav>
+        <div class="logo">
+            <h2>FoodBridge</h2>
+        </div>
+
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="about.html">About</a></li>
+            <li><a href="register.html">Register</a></li>
+            <li><a href="login.html">Login</a></li>
+        </ul>
+    </nav>
+
+
+    <!-- ================= REGISTER SECTION ================= -->
+
+    <section class="register-container">
+
+        <h1>Create Your Account</h1>
+
+        <p>
+            Join FoodBridge and become a part of our mission
+            to reduce food waste and fight hunger.
+        </p>
+
+        <form>
+
+            <!-- Full Name -->
+            <label>Full Name</label><br>
+            <input type="text"
+                   placeholder="Enter your full name"
+                   required>
+            <br><br>
+
+
+            <!-- Email -->
+            <label>Email Address</label><br>
+            <input type="email"
+                   placeholder="Enter your email"
+                   required>
+            <br><br>
+
+
+            <!-- Phone Number -->
+            <label>Phone Number</label><br>
+            <input type="tel"
+                   placeholder="Enter your phone number"
+                   required>
+            <br><br>
+
+
+            <!-- Password -->
+            <label>Password</label><br>
+            <input type="password"
+                   placeholder="Create a password"
+                   required>
+            <br><br>
+
+
+            <!-- Confirm Password -->
+            <label>Confirm Password</label><br>
+            <input type="password"
+                   placeholder="Confirm your password"
+                   required>
+            <br><br>
+
+
+            <!-- User Role -->
+            <label>Select Your Role</label><br>
+
+            <select required>
+                <option value="">Choose Role</option>
+                <option>Donor</option>
+                <option>Receiver</option>
+                <option>Volunteer</option>
+                <option>Admin</option>
+            </select>
+
+            <br><br>
+
+
+            <!-- Address -->
+            <label>Address</label><br>
+            <textarea rows="4"
+                      placeholder="Enter your address"
+                      required></textarea>
+
+            <br><br>
+
+
+            <!-- Register Button -->
+            <button type="submit">
+                Register
+            </button>
+
+        </form>
+
+        <br>
+
+        <p>
+            Already have an account?
+            <a href="login.html">Login Here</a>
+        </p>
+
+    </section>
+
+
+    <!-- ================= FOOTER ================= -->
+
+    <footer>
+
+        <p>
+            © 2026 FoodBridge. All Rights Reserved.
+        </p>
+
+    </footer>
+
+
+    <!-- JavaScript File -->
+
+    <script src="js/script.js"></script>
+
+</body>
+</html>
