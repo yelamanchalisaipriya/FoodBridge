@@ -1,28 +1,36 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Donate Food - FoodBridge</title>
 
     <!-- CSS File -->
     <link rel="stylesheet" href="css/style.css">
+
 </head>
+
 <body>
 
     <!-- ================= NAVBAR ================= -->
 
     <nav>
+
         <div class="logo">
             <h2>FoodBridge</h2>
         </div>
 
         <ul>
+
             <li><a href="index.html">Home</a></li>
             <li><a href="about.html">About</a></li>
             <li><a href="donate-food.html">Donate Food</a></li>
             <li><a href="login.html">Login</a></li>
+
         </ul>
+
     </nav>
 
 
@@ -42,47 +50,73 @@
             <!-- Food Name -->
 
             <label>Food Name</label><br>
+
             <input type="text"
-                   placeholder="Enter food name"
-                   required>
+                id="foodName"
+                placeholder="Enter Food Name"
+                required>
+
             <br><br>
+
 
 
             <!-- Quantity -->
 
             <label>Quantity (Number of Meals)</label><br>
+
             <input type="number"
-                   placeholder="Example: 50"
-                   required>
+                id="quantity"
+                placeholder="Example : 50"
+                required>
+
             <br><br>
+
 
 
             <!-- Food Type -->
 
             <label>Food Type</label><br>
 
-            <select required>
-                <option value="">Select Food Type</option>
+            <select id="foodType" required>
+
+                <option value="">
+                    Select Food Type
+                </option>
+
                 <option>Vegetarian</option>
+
                 <option>Non-Vegetarian</option>
+
                 <option>Both</option>
+
             </select>
 
             <br><br>
 
 
-            <!-- Preparation Time -->
+
+            <!-- Prepared Time -->
 
             <label>Food Prepared Time</label><br>
-            <input type="time" required>
+
+            <input type="time"
+                id="preparedTime"
+                required>
+
             <br><br>
+
 
 
             <!-- Expiry Time -->
 
             <label>Food Expiry Time</label><br>
-            <input type="time" required>
+
+            <input type="time"
+                id="expiryTime"
+                required>
+
             <br><br>
+
 
 
             <!-- Pickup Address -->
@@ -90,29 +124,25 @@
             <label>Pickup Address</label><br>
 
             <textarea rows="4"
-                      placeholder="Enter pickup address"
-                      required></textarea>
+                id="address"
+                placeholder="Enter Pickup Address"
+                required></textarea>
 
             <br><br>
+
 
 
             <!-- Contact Number -->
 
             <label>Contact Number</label><br>
+
             <input type="tel"
-                   placeholder="Enter your phone number"
-                   required>
+                id="phone"
+                placeholder="Enter Your Phone Number"
+                required>
 
             <br><br>
 
-
-            <!-- Upload Image -->
-
-            <label>Upload Food Image</label><br>
-            <input type="file"
-                   accept="image/*">
-
-            <br><br>
 
 
             <!-- Special Instructions -->
@@ -120,15 +150,20 @@
             <label>Special Instructions</label><br>
 
             <textarea rows="4"
-                      placeholder="Any special instructions?"></textarea>
+                id="instructions"
+                placeholder="Any Special Instructions?"></textarea>
 
             <br><br>
 
 
-            <!-- Submit Button -->
 
-            <button type="submit">
+            <!-- Donate Button -->
+
+            <button type="button"
+                onclick="donateFood()">
+
                 Donate Now
+
             </button>
 
         </form>
@@ -148,9 +183,90 @@
     </footer>
 
 
-    <!-- JavaScript File -->
 
-    <script src="js/script.js"></script>
+    <!-- ================= JAVASCRIPT ================= -->
 
+    <script>
+
+    async function donateFood() {
+
+
+        const foodName =
+        document.getElementById("foodName").value;
+
+
+        const quantity =
+        document.getElementById("quantity").value;
+
+
+        const foodType =
+        document.getElementById("foodType").value;
+
+
+        const preparedTime =
+        document.getElementById("preparedTime").value;
+
+
+        const expiryTime =
+        document.getElementById("expiryTime").value;
+
+
+        const address =
+        document.getElementById("address").value;
+
+
+        const phone =
+        document.getElementById("phone").value;
+
+
+        const instructions =
+        document.getElementById("instructions").value;
+
+
+
+        const response = await fetch(
+
+            "http://localhost:3000/donate-food",
+
+            {
+
+                method : "POST",
+
+                headers : {
+
+                    "Content-Type":"application/json"
+
+                },
+
+
+                body : JSON.stringify({
+
+                    foodName,
+                    quantity,
+                    foodType,
+                    preparedTime,
+                    expiryTime,
+                    address,
+                    phone,
+                    instructions
+
+                })
+
+            }
+
+        );
+
+
+        const message =
+        await response.text();
+
+
+        alert(message);
+
+
+    }
+
+</script>
 </body>
+
 </html>

@@ -1,133 +1,435 @@
-```html
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+
     <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <meta name="viewport"
+        content="width=device-width, initial-scale=1.0">
+
     <title>Admin Dashboard - FoodBridge</title>
 
-    <!-- CSS File -->
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet"
+        href="css/style.css">
+
 </head>
+
 <body>
 
-    <!-- ================= NAVBAR ================= -->
+
+    <!--================ NAVBAR =================-->
 
     <nav>
-        <div class="logo">
-            <h2>FoodBridge</h2>
-        </div>
 
-        <ul>
-            <li><a href="index.html">Home</a></li>
-            <li><a href="admin-dashboard.html">Dashboard</a></li>
-            <li><a href="profile.html">Profile</a></li>
-            <li><a href="login.html">Logout</a></li>
-        </ul>
-    </nav>
+    <div class="logo">
+        <h2>FoodBridge</h2>
+    </div>
+
+    <ul>
+
+        <li><a href="index.html">Home</a></li>
+
+        <li><a href="admin-dashboard.html">Dashboard</a></li>
+
+        <li><a href="profile.html">Profile</a></li>
+
+        <li>
+            <a href="#" onclick="logout()">
+                Logout
+            </a>
+        </li>
+
+    </ul>
+
+</nav>
 
 
-    <!-- ================= ADMIN DASHBOARD ================= -->
+
+    <!--================ ADMIN DASHBOARD =================-->
+
 
     <section class="admin-dashboard">
 
         <h1>Admin Dashboard</h1>
 
-        <p>Manage donations, volunteers, and food requests.</p>
+        <p>
+
+            Manage FoodBridge Activities.
+
+        </p>
+
 
     </section>
 
 
 
-    <!-- ================= WEBSITE STATISTICS ================= -->
+
+    <!--================ WEBSITE STATISTICS =================-->
+
 
     <section class="statistics">
 
+
         <h2>Website Statistics</h2>
 
-        <p><strong>Total Users :</strong> 500</p>
-        <p><strong>Total Donations :</strong> 300</p>
-        <p><strong>Total Meals Served :</strong> 7500</p>
-        <p><strong>Total Volunteers :</strong> 120</p>
+
+        <p>
+
+            <strong>Total Users :</strong>
+
+            <span id="totalUsers">
+
+                0
+
+            </span>
+
+        </p>
+
+
+        <p>
+
+            <strong>Total Donations :</strong>
+
+            <span id="totalDonations">
+
+                0
+
+            </span>
+
+        </p>
+
+
+
+        <p>
+
+            <strong>Total Food Requests :</strong>
+
+            <span id="totalRequests">
+
+                0
+
+            </span>
+
+        </p>
+
 
     </section>
 
 
 
-    <!-- ================= FOOD DONATIONS ================= -->
-
-    <section class="donations">
-
-        <h2>Recent Food Donations</h2>
-
-        <div class="donation-card">
-
-            <h3>Vegetable Biryani</h3>
-
-            <p><strong>Donor :</strong> Sai Priya</p>
-            <p><strong>Quantity :</strong> 50 Meals</p>
-            <p><strong>Status :</strong> Delivered</p>
-
-        </div>
-
-        <br>
-
-        <div class="donation-card">
-
-            <h3>Chapathi & Curry</h3>
-
-            <p><strong>Donor :</strong> Ram Kumar</p>
-            <p><strong>Quantity :</strong> 30 Meals</p>
-            <p><strong>Status :</strong> Pending Pickup</p>
-
-        </div>
-
-    </section>
 
 
+    <!--================ USERS =================-->
 
-    <!-- ================= VOLUNTEER DETAILS ================= -->
-
-    <section class="volunteers">
-
-        <h2>Volunteer Activities</h2>
-
-        <p><strong>Total Deliveries :</strong> 250</p>
-        <p><strong>Active Volunteers :</strong> 75</p>
-
-    </section>
-
-
-
-    <!-- ================= USER MANAGEMENT ================= -->
 
     <section class="users">
 
-        <h2>User Management</h2>
 
-        <button>Add User</button>
-        <button>View Users</button>
-        <button>Remove User</button>
+        <h2>Registered Users</h2>
+
+
+        <div id="users">
+
+        </div>
+
 
     </section>
 
 
 
-    <!-- ================= FOOTER ================= -->
+
+
+    <!--================ DONATIONS =================-->
+
+
+    <section class="donations">
+
+
+        <h2>Food Donations</h2>
+
+
+        <div id="donations">
+
+        </div>
+
+
+    </section>
+
+
+
+
+
+    <!--================ REQUESTS =================-->
+
+
+    <section class="requests">
+
+
+        <h2>Food Requests</h2>
+
+
+        <div id="requests">
+
+        </div>
+
+
+    </section>
+
+
+
+
+
+    <!--================ FOOTER =================-->
+
 
     <footer>
 
         <p>
-            © 2026 FoodBridge. All Rights Reserved.
+
+            © 2026 FoodBridge.
+            All Rights Reserved.
+
         </p>
 
     </footer>
 
 
-    <!-- JavaScript File -->
 
-    <script src="js/script.js"></script>
+
+
+    <!--================ JAVASCRIPT =================-->
+
+
+
+    <script>
+
+
+        //================ USERS =================
+
+
+        async function loadUsers() {
+
+
+            const response = await fetch(
+
+                "http://localhost:3000/users"
+
+            );
+
+
+            const users = await response.json();
+
+
+            document.getElementById(
+
+                "totalUsers"
+
+            ).innerText = users.length;
+
+
+
+            const container =
+
+                document.getElementById(
+
+                    "users"
+
+                );
+
+
+
+            users.forEach((user) => {
+
+
+                container.innerHTML += `
+
+                <p>
+
+                ${user.name}
+
+                |
+
+                ${user.email}
+
+                |
+
+                ${user.role}
+
+                </p>
+
+                `;
+
+
+            });
+
+
+        }
+
+
+
+
+
+
+        //================ DONATIONS =================
+
+
+
+        async function loadDonations() {
+
+
+
+            const response = await fetch(
+
+                "http://localhost:3000/donations"
+
+            );
+
+
+            const donations =
+
+                await response.json();
+
+
+
+            document.getElementById(
+
+                "totalDonations"
+
+            ).innerText = donations.length;
+
+
+
+            const container =
+
+                document.getElementById(
+
+                    "donations"
+
+                );
+
+
+
+            donations.forEach((food) => {
+
+
+
+                container.innerHTML += `
+
+
+                <p>
+
+                ${food.foodName}
+
+                |
+
+                ${food.quantity}
+
+                Meals
+
+                </p>
+
+
+                `;
+
+
+            });
+
+
+
+        }
+
+
+
+
+
+
+        //================ REQUESTS =================
+
+
+
+        async function loadRequests() {
+
+
+
+            const response = await fetch(
+
+                "http://localhost:3000/requests"
+
+            );
+
+
+            const requests =
+
+                await response.json();
+
+
+
+            document.getElementById(
+
+                "totalRequests"
+
+            ).innerText = requests.length;
+
+
+
+            const container =
+
+                document.getElementById(
+
+                    "requests"
+
+                );
+
+
+
+            requests.forEach((request) => {
+
+
+
+                container.innerHTML += `
+
+
+                <p>
+
+                ${request.name}
+
+                |
+
+                ${request.meals}
+
+                Meals
+
+                </p>
+
+
+                `;
+
+
+
+            });
+
+
+
+        }
+
+
+
+
+        //================ CALLING FUNCTIONS =================
+
+
+        loadUsers();
+
+        loadDonations();
+
+        loadRequests();
+
+
+
+    </script>
+
 
 </body>
+
 </html>
-```

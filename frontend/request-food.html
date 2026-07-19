@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>Request Food</title>
+
+    <link rel="stylesheet"
+    href="css/style.css">
+
+</head>
+
+<body>
+
+
+<nav>
+
+<div class="logo">
+
+<h2>FoodBridge</h2>
+
+</div>
+
+
+<ul>
+
+<li><a href="index.html">Home</a></li>
+
+<li><a href="find-food.html">Find Food</a></li>
+
+<li><a href="request-food.html">Request Food</a></li>
+
+<li><a href="login.html">Login</a></li>
+
+</ul>
+
+
+</nav>
+
+
+
+<section class="request-container">
+
+
+<h1>Request Food</h1>
+
+
+<p>
+
+Fill the details below to
+request food.
+
+</p>
+
+
+<label>Name</label><br>
+
+<input type="text"
+id="name"
+required>
+
+<br><br>
+
+
+
+<label>Phone Number</label><br>
+
+<input type="tel"
+id="phone"
+required>
+
+<br><br>
+
+
+
+
+<label>Meals Required</label><br>
+
+<input type="number"
+id="meals"
+required>
+
+<br><br>
+
+
+
+<label>Address</label><br>
+
+<textarea
+id="address"
+rows="4"
+required>
+
+</textarea>
+
+<br><br>
+
+
+
+
+<label>Reason</label><br>
+
+<textarea
+id="reason"
+rows="4">
+
+</textarea>
+
+<br><br>
+
+
+
+
+<button
+type="button"
+onclick="requestFood()">
+
+Submit
+
+</button>
+
+
+</section>
+
+
+
+
+<footer>
+
+<p>
+
+© 2026 FoodBridge
+
+</p>
+
+</footer>
+
+
+
+<script>
+
+
+async function requestFood(){
+
+
+const name =
+document.getElementById("name").value;
+
+
+const phone =
+document.getElementById("phone").value;
+
+
+
+const meals =
+document.getElementById("meals").value;
+
+
+
+const address =
+document.getElementById("address").value;
+
+
+
+const reason =
+document.getElementById("reason").value;
+
+
+
+
+const response = await fetch(
+
+"http://localhost:3000/request-food",
+
+{
+
+method:"POST",
+
+headers:{
+
+"Content-Type":"application/json"
+
+},
+
+body:JSON.stringify({
+
+name,
+phone,
+meals,
+address,
+reason
+
+})
+
+}
+
+);
+
+
+
+const message =
+await response.text();
+
+
+alert(message);
+
+
+
+}
+
+
+</script>
+
+
+</body>
+
+</html>

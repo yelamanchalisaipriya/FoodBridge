@@ -298,4 +298,176 @@ footer{
     }
 
 }
-```
+/*================ CARD HOVER EFFECT =================*/
+
+.food-card:hover,
+.donation-card:hover,
+.request-card:hover,
+.history-card:hover{
+
+    box-shadow:0 0 25px rgba(0,0,0,0.2);
+
+}
+
+
+/*================ BUTTON EFFECTS =================*/
+
+button:active{
+
+    transform:scale(0.98);
+
+}
+
+
+
+/*================ INPUT HOVER =================*/
+
+input:hover,
+textarea:hover,
+select:hover{
+
+    border:2px solid #2E8B57;
+
+}
+
+
+
+/*================ SMOOTH SCROLL =================*/
+
+html{
+
+    scroll-behavior:smooth;
+
+}
+
+
+
+/*================ IMAGE RESPONSIVE =================*/
+
+img{
+
+    max-width:100%;
+
+    height:auto;
+
+    border-radius:10px;
+
+}
+
+
+
+/*================ STATISTICS SECTION =================*/
+
+.statistics{
+
+    transition:0.3s;
+
+}
+
+
+.statistics:hover{
+
+    box-shadow:0 0 25px rgba(0,0,0,0.2);
+
+}
+
+
+
+/*================ USERS SECTION =================*/
+
+.users{
+
+    background-color:white;
+
+    margin:30px;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+
+}
+
+
+
+/*================ REQUESTS SECTION =================*/
+
+.requests{
+
+    background-color:white;
+
+    margin:30px;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+
+}
+
+
+
+/*================ DONATIONS SECTION =================*/
+
+.donations{
+
+    background-color:white;
+
+    margin:30px;
+
+    padding:40px;
+
+    border-radius:15px;
+
+    box-shadow:0 0 15px rgba(0,0,0,0.1);
+
+}
+
+
+
+/*================ LINKS =================*/
+
+a{
+
+    transition:0.3s;
+
+}
+
+
+a:hover{
+
+    opacity:0.8;
+
+}
+
+
+
+/*================ PAGE ANIMATION =================*/
+
+body{
+
+    animation:fadeIn 0.7s ease-in;
+
+}
+
+
+@keyframes fadeIn{
+
+
+from{
+
+    opacity:0;
+
+}
+
+
+to{
+
+    opacity:1;
+
+}
+
+
+}

@@ -117,6 +117,14 @@ function updateProfile(){
 
 }
 
+function logout(){
+
+    alert("Logged Out Successfully!");
+
+    window.location.href = "login.html";
+
+}
+
 
 
 // ================= ADMIN FUNCTIONS =================
