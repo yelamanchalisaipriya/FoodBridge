@@ -1,39 +1,30 @@
+require("dotenv").config();
+
 const express = require("express");
-const bodyParser = require("body-parser");
 const cors = require("cors");
 const mongoose = require("mongoose");
 
 const app = express();
 
 
-//================= MONGODB CONNECTION =================
+// ================= MIDDLEWARE =================
 
-mongoose.connect("mongodb://127.0.0.1:27017/FoodBridge")
+app.use(cors());
+app.use(express.json());
 
+
+// ================= MONGODB CONNECTION =================
+
+mongoose.connect(process.env.MONGO_URI)
 .then(() => {
-
     console.log("MongoDB Connected Successfully");
-
 })
-
 .catch((error) => {
-
-    console.log(error);
-
+    console.log("MongoDB Error:", error);
 });
 
 
-
-//================= MIDDLEWARES =================
-
-app.use(cors());
-
-app.use(bodyParser.json());
-
-
-
-
-//================= USER SCHEMA =================
+// ================= USER SCHEMA =================
 
 const userSchema = new mongoose.Schema({
 
@@ -48,20 +39,11 @@ const userSchema = new mongoose.Schema({
 });
 
 
-//================= USER MODEL =================
-
-const User = mongoose.model(
-
-    "User",
-
-    userSchema
-
-);
+const User = mongoose.model("User", userSchema);
 
 
 
-
-//================= DONATION SCHEMA =================
+// ================= DONATION SCHEMA =================
 
 const donationSchema = new mongoose.Schema({
 
@@ -77,20 +59,11 @@ const donationSchema = new mongoose.Schema({
 });
 
 
-//================= DONATION MODEL =================
-
-const Donation = mongoose.model(
-
-    "Donation",
-
-    donationSchema
-
-);
+const Donation = mongoose.model("Donation", donationSchema);
 
 
 
-
-//================= REQUEST SCHEMA =================
+// ================= REQUEST SCHEMA =================
 
 const requestSchema = new mongoose.Schema({
 
@@ -103,22 +76,13 @@ const requestSchema = new mongoose.Schema({
 });
 
 
-//================= REQUEST MODEL =================
-
-const Request = mongoose.model(
-
-    "Request",
-
-    requestSchema
-
-);
+const Request = mongoose.model("Request", requestSchema);
 
 
 
+// ================= HOME =================
 
-//================= HOME PAGE =================
-
-app.get("/", (req, res) => {
+app.get("/", (req,res)=>{
 
     res.send("Welcome to FoodBridge");
 
@@ -126,308 +90,259 @@ app.get("/", (req, res) => {
 
 
 
+// ================= REGISTER =================
 
-//================= REGISTER API =================
+app.post("/register", async(req,res)=>{
 
-app.post("/register", async (req, res) => {
+    try{
 
-
-    const {
-
-        name,
-        email,
-        phone,
-        password,
-        confirmPassword,
-        role,
-        address
-
-    } = req.body;
+        console.log("Register Data:", req.body);
 
 
+        const user = new User({
 
-    const user = new User({
+            name:req.body.name,
+            email:req.body.email,
+            phone:req.body.phone,
+            password:req.body.password,
+            confirmPassword:req.body.confirmPassword,
+            role:req.body.role,
+            address:req.body.address
 
-        name,
-        email,
-        phone,
-        password,
-        confirmPassword,
-        role,
-        address
-
-    });
-
+        });
 
 
-    await user.save();
+        await user.save();
 
 
+        res.json({
 
-    res.send(
+            message:"Registration Successful"
 
-        "Registration Successful"
+        });
 
-    );
 
+    }
+    catch(error){
+
+        console.log(error);
+
+        res.status(500).json({
+
+            message:"Registration Failed"
+
+        });
+
+    }
 
 });
 
 
 
+// ================= LOGIN =================
 
-//================= LOGIN API =================
+app.post("/login", async(req,res)=>{
 
-app.post("/login", async (req, res) => {
+    try{
 
-
-    const {
-
-        email,
-        password,
-        role
-
-    } = req.body;
+        const {email,password}=req.body;
 
 
+        const user = await User.findOne({
 
-    console.log("Email :", email);
+            email:email
 
-
-
-    const user = await User.findOne({
-
-        email: email
-
-    });
+        });
 
 
+        if(!user){
 
-    console.log(user);
+            return res.json({
+
+                message:"User Not Found"
+
+            });
+
+        }
+
+
+        if(user.password !== password){
+
+            return res.json({
+
+                message:"Incorrect Password"
+
+            });
+
+        }
+
+
+        res.json({
+
+            message:"Login Successful",
+            user:user
+
+        });
+
+
+    }
+    catch(error){
+
+        console.log(error);
+
+        res.status(500).json({
+
+            message:"Login Failed"
+
+        });
+
+    }
+
+});
 
 
 
-    if (!user) {
+// ================= DONATE FOOD =================
 
-        return res.send(
+app.post("/donate-food", async(req,res)=>{
 
-            "User Not Found"
 
-        );
+    try{
+
+
+        const donation = new Donation(req.body);
+
+
+        await donation.save();
+
+
+        res.json({
+
+            message:"Food Donation Successful"
+
+        });
+
+
+    }
+    catch(error){
+
+        console.log(error);
+
+        res.status(500).json({
+
+            message:"Donation Failed"
+
+        });
 
     }
 
 
+});
 
-    if (user.password !== password) {
 
-        return res.send(
 
-            "Incorrect Password"
+// ================= FIND FOOD =================
 
-        );
+app.get("/find-food", async(req,res)=>{
+
+
+    try{
+
+
+        const food = await Donation.find();
+
+
+        res.json(food);
+
+
+    }
+    catch(error){
+
+        res.status(500).json(error);
 
     }
 
 
+});
 
-    res.send(
 
-        "Login Successful"
 
-    );
+// ================= REQUEST FOOD =================
+
+app.post("/request-food", async(req,res)=>{
+
+
+    try{
+
+
+        const request = new Request(req.body);
+
+
+        await request.save();
+
+
+        res.json({
+
+            message:"Food Request Submitted Successfully"
+
+        });
+
+
+    }
+    catch(error){
+
+        console.log(error);
+
+        res.status(500).json({
+
+            message:"Request Failed"
+
+        });
+
+    }
 
 
 });
 
 
 
+// ================= ADMIN APIs =================
 
-//================= DONATE FOOD API =================
 
-app.post("/donate-food", async (req, res) => {
+app.get("/users", async(req,res)=>{
 
-
-    const {
-
-        foodName,
-        quantity,
-        foodType,
-        preparedTime,
-        expiryTime,
-        address,
-        phone,
-        instructions
-
-    } = req.body;
-
-
-
-    const newDonation = new Donation({
-
-        foodName,
-        quantity,
-        foodType,
-        preparedTime,
-        expiryTime,
-        address,
-        phone,
-        instructions
-
-    });
-
-
-
-    await newDonation.save();
-
-
-
-    res.send(
-
-        "Food Donation Successful"
-
-    );
-
-
-});
-
-
-
-
-//================= FIND FOOD API =================
-
-app.get("/find-food", async (req, res) => {
-
-
-    const donations =
-
-        await Donation.find();
-
-
-
-    res.json(donations);
-
-
-});
-
-
-
-
-//================= REQUEST FOOD API =================
-
-app.post("/request-food", async (req, res) => {
-
-
-    const {
-
-        name,
-        phone,
-        meals,
-        address,
-        reason
-
-    } = req.body;
-
-
-
-    const newRequest = new Request({
-
-        name,
-        phone,
-        meals,
-        address,
-        reason
-
-    });
-
-
-
-    await newRequest.save();
-
-
-
-    res.send(
-
-        "Food Request Submitted Successfully"
-
-    );
-
-
-});
-
-
-
-
-//================= ADMIN APIs =================
-
-
-//---------- GET USERS ----------
-
-app.get("/users", async (req, res) => {
-
-
-    const users =
-
-        await User.find();
-
-
+    const users = await User.find();
 
     res.json(users);
 
-
 });
 
 
 
+app.get("/donations", async(req,res)=>{
 
-//---------- GET DONATIONS ----------
-
-app.get("/donations", async (req, res) => {
-
-
-    const donations =
-
-        await Donation.find();
-
-
+    const donations = await Donation.find();
 
     res.json(donations);
 
-
 });
 
 
 
+app.get("/requests", async(req,res)=>{
 
-//---------- GET REQUESTS ----------
-
-app.get("/requests", async (req, res) => {
-
-
-    const requests =
-
-        await Request.find();
-
-
+    const requests = await Request.find();
 
     res.json(requests);
 
-
 });
 
 
 
+// ================= SERVER =================
 
-//================= SERVER =================
+app.listen(3000,()=>{
 
-app.listen(3000, () => {
-
-
-    console.log(
-
-        "FoodBridge Server is Running Successfully"
-
-    );
-
+    console.log("FoodBridge Server is Running Successfully");
 
 });
