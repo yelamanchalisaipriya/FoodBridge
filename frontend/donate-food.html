@@ -51,10 +51,7 @@
 
             <label>Food Name</label><br>
 
-            <input type="text"
-                id="foodName"
-                placeholder="Enter Food Name"
-                required>
+            <input type="text" id="foodName" placeholder="Enter Food Name" required>
 
             <br><br>
 
@@ -64,10 +61,7 @@
 
             <label>Quantity (Number of Meals)</label><br>
 
-            <input type="number"
-                id="quantity"
-                placeholder="Example : 50"
-                required>
+            <input type="number" id="quantity" placeholder="Example : 50" required>
 
             <br><br>
 
@@ -99,9 +93,7 @@
 
             <label>Food Prepared Time</label><br>
 
-            <input type="time"
-                id="preparedTime"
-                required>
+            <input type="time" id="preparedTime" required>
 
             <br><br>
 
@@ -111,9 +103,7 @@
 
             <label>Food Expiry Time</label><br>
 
-            <input type="time"
-                id="expiryTime"
-                required>
+            <input type="time" id="expiryTime" required>
 
             <br><br>
 
@@ -123,10 +113,7 @@
 
             <label>Pickup Address</label><br>
 
-            <textarea rows="4"
-                id="address"
-                placeholder="Enter Pickup Address"
-                required></textarea>
+            <textarea rows="4" id="address" placeholder="Enter Pickup Address" required></textarea>
 
             <br><br>
 
@@ -136,10 +123,7 @@
 
             <label>Contact Number</label><br>
 
-            <input type="tel"
-                id="phone"
-                placeholder="Enter Your Phone Number"
-                required>
+            <input type="tel" id="phone" placeholder="Enter Your Phone Number" required>
 
             <br><br>
 
@@ -149,9 +133,7 @@
 
             <label>Special Instructions</label><br>
 
-            <textarea rows="4"
-                id="instructions"
-                placeholder="Any Special Instructions?"></textarea>
+            <textarea rows="4" id="instructions" placeholder="Any Special Instructions?"></textarea>
 
             <br><br>
 
@@ -159,8 +141,7 @@
 
             <!-- Donate Button -->
 
-            <button type="button"
-                onclick="donateFood()">
+            <button type="button" onclick="donateFood()">
 
                 Donate Now
 
@@ -188,85 +169,85 @@
 
     <script>
 
-    async function donateFood() {
+        async function donateFood() {
 
 
-        const foodName =
-        document.getElementById("foodName").value;
+            const foodName =
+                document.getElementById("foodName").value;
 
 
-        const quantity =
-        document.getElementById("quantity").value;
+            const quantity =
+                document.getElementById("quantity").value;
 
 
-        const foodType =
-        document.getElementById("foodType").value;
+            const foodType =
+                document.getElementById("foodType").value;
 
 
-        const preparedTime =
-        document.getElementById("preparedTime").value;
+            const preparedTime =
+                document.getElementById("preparedTime").value;
 
 
-        const expiryTime =
-        document.getElementById("expiryTime").value;
+            const expiryTime =
+                document.getElementById("expiryTime").value;
 
 
-        const address =
-        document.getElementById("address").value;
+            const address =
+                document.getElementById("address").value;
 
 
-        const phone =
-        document.getElementById("phone").value;
+            const phone =
+                document.getElementById("phone").value;
 
 
-        const instructions =
-        document.getElementById("instructions").value;
+            const instructions =
+                document.getElementById("instructions").value;
 
 
 
-        const response = await fetch(
+            const response = await fetch(
 
-            "https://foodbridge-whsc.onrender.com/......../donate-food",
+                "https://foodbridge-whsc.onrender.com/donate-food",
 
-            {
+                {
 
-                method : "POST",
+                    method: "POST",
 
-                headers : {
+                    headers: {
 
-                    "Content-Type":"application/json"
+                        "Content-Type": "application/json"
 
-                },
-
-
-                body : JSON.stringify({
-
-                    foodName,
-                    quantity,
-                    foodType,
-                    preparedTime,
-                    expiryTime,
-                    address,
-                    phone,
-                    instructions
-
-                })
-
-            }
-
-        );
+                    },
 
 
-        const message =
-        await response.text();
+                    body: JSON.stringify({
+
+                        foodName,
+                        quantity,
+                        foodType,
+                        preparedTime,
+                        expiryTime,
+                        address,
+                        phone,
+                        instructions
+
+                    })
+
+                }
+
+            );
 
 
-        alert(message);
+            const message =
+                await response.text();
 
 
-    }
+            alert(message);
 
-</script>
+
+        }
+
+    </script>
 </body>
 
 </html>
