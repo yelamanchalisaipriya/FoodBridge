@@ -1,34 +1,136 @@
-```javascript
 // ================= WELCOME MESSAGE =================
 
 console.log("Welcome to FoodBridge!");
 
 
+// Backend URL
+const API_URL = "http://localhost:5000";
 
-// ================= LOGIN VALIDATION =================
 
-// We will connect this to the backend later.
+// ================= LOGIN =================
 
-function loginSuccess() {
+async function loginSuccess() {
 
-    alert("Login Successful!");
+    const email = document.getElementById("email").value;
+    const password = document.getElementById("password").value;
+
+
+    try {
+
+        const response = await fetch(`${API_URL}/login`, {
+
+            method: "POST",
+
+            headers: {
+                "Content-Type": "application/json"
+            },
+
+            body: JSON.stringify({
+                email,
+                password
+            })
+
+        });
+
+
+        const data = await response.json();
+
+        alert(data.message);
+
+
+        if(data.message === "Login Successful"){
+
+            window.location.href = "index.html";
+
+        }
+
+
+    }
+
+    catch(error){
+
+        console.log(error);
+        alert("Server Error");
+
+    }
 
 }
 
 
 
-// ================= REGISTER VALIDATION =================
+// ================= REGISTER =================
 
-function checkPassword(password, confirmPassword) {
+async function checkPassword(password, confirmPassword) {
 
-    if (password !== confirmPassword) {
+
+    if(password !== confirmPassword){
 
         alert("Passwords do not match!");
         return false;
 
     }
 
-    alert("Registration Successful!");
+
+    const userData = {
+
+        name: document.getElementById("name").value,
+
+        email: document.getElementById("email").value,
+
+        phone: document.getElementById("phone").value,
+
+        password: password,
+
+        confirmPassword: confirmPassword,
+
+        role: document.getElementById("role").value,
+
+        address: document.getElementById("address").value
+
+    };
+
+
+    try {
+
+
+        const response = await fetch(`${API_URL}/register`, {
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body: JSON.stringify(userData)
+
+        });
+
+
+        const data = await response.json();
+
+
+        alert(data.message);
+
+
+
+        if(data.message === "Registration Successful"){
+
+            window.location.href="login.html";
+
+        }
+
+
+    }
+
+
+    catch(error){
+
+        console.log(error);
+        alert("Server Error");
+
+    }
+
+
     return true;
 
 }
@@ -37,9 +139,102 @@ function checkPassword(password, confirmPassword) {
 
 // ================= DONATE FOOD =================
 
-function donateFood() {
+async function donateFood(){
 
-    alert("Thank You! Your food donation has been submitted successfully.");
+
+    const donationData = {
+
+
+        foodName: document.getElementById("foodName").value,
+
+        quantity: document.getElementById("quantity").value,
+
+        foodType: document.getElementById("foodType").value,
+
+        preparedTime: document.getElementById("preparedTime").value,
+
+        expiryTime: document.getElementById("expiryTime").value,
+
+        address: document.getElementById("address").value,
+
+        phone: document.getElementById("phone").value,
+
+        instructions: document.getElementById("instructions").value
+
+
+    };
+
+
+
+    try{
+
+
+        const response = await fetch(`${API_URL}/donate-food`,{
+
+            method:"POST",
+
+            headers:{
+                "Content-Type":"application/json"
+            },
+
+            body:JSON.stringify(donationData)
+
+        });
+
+
+
+        const data = await response.json();
+
+
+        alert(data.message);
+
+
+    }
+
+
+    catch(error){
+
+        console.log(error);
+        alert("Server Error");
+
+    }
+
+
+}
+
+
+
+// ================= FIND FOOD =================
+
+
+async function findFood(){
+
+
+    try{
+
+
+        const response = await fetch(`${API_URL}/find-food`);
+
+
+        const data = await response.json();
+
+
+        console.log(data);
+
+
+        alert("Food list loaded. Check console.");
+
+
+    }
+
+
+    catch(error){
+
+        console.log(error);
+        alert("Unable to fetch food");
+
+    }
+
 
 }
 
@@ -47,7 +242,7 @@ function donateFood() {
 
 // ================= FOOD REQUEST =================
 
-function requestFood() {
+function requestFood(){
 
     alert("Food Request Submitted Successfully.");
 
@@ -55,9 +250,9 @@ function requestFood() {
 
 
 
-// ================= VOLUNTEER REQUEST =================
+// ================= VOLUNTEER =================
 
-function acceptRequest() {
+function acceptRequest(){
 
     alert("You have accepted the delivery request.");
 
@@ -67,7 +262,7 @@ function acceptRequest() {
 
 // ================= DELIVERY STATUS =================
 
-function deliveryCompleted() {
+function deliveryCompleted(){
 
     alert("Food Delivered Successfully!");
 
@@ -77,7 +272,7 @@ function deliveryCompleted() {
 
 // ================= CONTACT FORM =================
 
-function sendMessage() {
+function sendMessage(){
 
     alert("Your message has been sent successfully.");
 
@@ -85,60 +280,38 @@ function sendMessage() {
 
 
 
-// ================= BUTTON HOVER EFFECT =================
-
-const buttons = document.querySelectorAll("button");
-
-
-buttons.forEach(function(button){
-
-    button.addEventListener("mouseover", function(){
-
-        button.style.opacity = "0.9";
-
-    });
-
-
-    button.addEventListener("mouseleave", function(){
-
-        button.style.opacity = "1";
-
-    });
-
-});
-
-
-
-// ================= PROFILE UPDATE =================
+// ================= PROFILE =================
 
 function updateProfile(){
 
-    alert("Profile Updated Successfully!");
+    alert("Profile Updated Successfully.");
 
 }
+
+
 
 function logout(){
 
-    alert("Logged Out Successfully!");
+    alert("Logged Out Successfully.");
 
-    window.location.href = "login.html";
+    window.location.href="login.html";
 
 }
 
 
 
-// ================= ADMIN FUNCTIONS =================
+// ================= ADMIN =================
 
 function addUser(){
 
-    alert("User Added Successfully!");
+    alert("User Added Successfully.");
 
 }
 
 
 function removeUser(){
 
-    alert("User Removed Successfully!");
+    alert("User Removed Successfully.");
 
 }
 
@@ -151,23 +324,27 @@ function viewUsers(){
 
 
 
-// ================= FUTURE FEATURES =================
+// ================= BUTTON HOVER EFFECT =================
 
-/*
+const buttons = document.querySelectorAll("button");
 
-We will add:
 
-1. Authentication
-2. Dark Mode
-3. Nearby Food Finder
-4. Food Expiry Timer
-5. Live Donation Tracking
-6. Google Maps Integration
-7. Image Upload
-8. Email Notifications
-9. MongoDB Connection
-10. REST APIs
+buttons.forEach(function(button){
 
-*/
 
-```
+    button.addEventListener("mouseover",function(){
+
+        button.style.opacity="0.9";
+
+    });
+
+
+
+    button.addEventListener("mouseleave",function(){
+
+        button.style.opacity="1";
+
+    });
+
+
+});

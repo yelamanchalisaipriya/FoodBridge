@@ -39,7 +39,10 @@
             to reduce food waste and fight hunger.
         </p>
 
-        <form>
+        <form onsubmit="event.preventDefault(); checkPassword(
+document.getElementById('password').value,
+document.getElementById('confirmPassword').value
+)">
 
             <!-- Full Name -->
             <label>Full Name</label><br>

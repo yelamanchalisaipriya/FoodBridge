@@ -3,6 +3,8 @@ require("dotenv").config();
 const express = require("express");
 const cors = require("cors");
 const mongoose = require("mongoose");
+const User = require("./models/User");
+
 
 const app = express();
 
@@ -13,33 +15,8 @@ app.use(cors());
 app.use(express.json());
 
 
-// ================= MONGODB CONNECTION =================
-
-mongoose.connect(process.env.MONGO_URI)
-.then(() => {
-    console.log("MongoDB Connected Successfully");
-})
-.catch((error) => {
-    console.log("MongoDB Error:", error);
-});
 
 
-// ================= USER SCHEMA =================
-
-const userSchema = new mongoose.Schema({
-
-    name: String,
-    email: String,
-    phone: String,
-    password: String,
-    confirmPassword: String,
-    role: String,
-    address: String
-
-});
-
-
-const User = mongoose.model("User", userSchema);
 
 
 
@@ -99,20 +76,69 @@ app.post("/register", async(req,res)=>{
         console.log("Register Data:", req.body);
 
 
-        const user = new User({
+        const {
+            name,
+            email,
+            phone,
+            password,
+            confirmPassword,
+            role,
+            address
 
-            name:req.body.name,
-            email:req.body.email,
-            phone:req.body.phone,
-            password:req.body.password,
-            confirmPassword:req.body.confirmPassword,
-            role:req.body.role,
-            address:req.body.address
+        } = req.body;
+
+
+
+        // Password checking
+
+        if(password !== confirmPassword){
+
+            return res.json({
+
+                message:"Passwords do not match"
+
+            });
+
+        }
+
+
+
+        // Check existing user
+
+        const existingUser = await User.findOne({
+
+            email:email
 
         });
 
 
+        if(existingUser){
+
+            return res.json({
+
+                message:"User already exists"
+
+            });
+
+        }
+
+
+
+        const user = new User({
+
+            name,
+            email,
+            phone,
+            password,
+            role,
+            address
+
+        });
+
+
+
         await user.save();
+
 
 
         res.json({
@@ -122,10 +148,13 @@ app.post("/register", async(req,res)=>{
         });
 
 
+
     }
+
     catch(error){
 
         console.log(error);
+
 
         res.status(500).json({
 
@@ -139,13 +168,22 @@ app.post("/register", async(req,res)=>{
 
 
 
+
+
 // ================= LOGIN =================
 
 app.post("/login", async(req,res)=>{
 
     try{
 
-        const {email,password}=req.body;
+
+        const {
+
+            email,
+            password
+
+        } = req.body;
+
 
 
         const user = await User.findOne({
@@ -153,6 +191,7 @@ app.post("/login", async(req,res)=>{
             email:email
 
         });
+
 
 
         if(!user){
@@ -166,6 +205,7 @@ app.post("/login", async(req,res)=>{
         }
 
 
+
         if(user.password !== password){
 
             return res.json({
@@ -177,6 +217,7 @@ app.post("/login", async(req,res)=>{
         }
 
 
+
         res.json({
 
             message:"Login Successful",
@@ -185,10 +226,15 @@ app.post("/login", async(req,res)=>{
         });
 
 
+
     }
+
+
     catch(error){
 
+
         console.log(error);
+
 
         res.status(500).json({
 
@@ -196,13 +242,18 @@ app.post("/login", async(req,res)=>{
 
         });
 
+
     }
+
 
 });
 
 
 
+
+
 // ================= DONATE FOOD =================
+
 
 app.post("/donate-food", async(req,res)=>{
 
@@ -216,6 +267,7 @@ app.post("/donate-food", async(req,res)=>{
         await donation.save();
 
 
+
         res.json({
 
             message:"Food Donation Successful"
@@ -223,16 +275,22 @@ app.post("/donate-food", async(req,res)=>{
         });
 
 
+
     }
+
+
     catch(error){
 
+
         console.log(error);
+
 
         res.status(500).json({
 
             message:"Donation Failed"
 
         });
+
 
     }
 
@@ -241,7 +299,10 @@ app.post("/donate-food", async(req,res)=>{
 
 
 
+
+
 // ================= FIND FOOD =================
+
 
 app.get("/find-food", async(req,res)=>{
 
@@ -255,10 +316,22 @@ app.get("/find-food", async(req,res)=>{
         res.json(food);
 
 
+
     }
+
+
     catch(error){
 
-        res.status(500).json(error);
+
+        console.log(error);
+
+
+        res.status(500).json({
+
+            message:"Unable to fetch food"
+
+        });
+
 
     }
 
@@ -267,7 +340,10 @@ app.get("/find-food", async(req,res)=>{
 
 
 
+
+
 // ================= REQUEST FOOD =================
+
 
 app.post("/request-food", async(req,res)=>{
 
@@ -281,6 +357,7 @@ app.post("/request-food", async(req,res)=>{
         await request.save();
 
 
+
         res.json({
 
             message:"Food Request Submitted Successfully"
@@ -288,10 +365,15 @@ app.post("/request-food", async(req,res)=>{
         });
 
 
+
     }
+
+
     catch(error){
 
+
         console.log(error);
+
 
         res.status(500).json({
 
@@ -299,6 +381,7 @@ app.post("/request-food", async(req,res)=>{
 
         });
 
+
     }
 
 
@@ -306,43 +389,117 @@ app.post("/request-food", async(req,res)=>{
 
 
 
+
+
 // ================= ADMIN APIs =================
+
 
 
 app.get("/users", async(req,res)=>{
 
-    const users = await User.find();
 
-    res.json(users);
+    try{
+
+
+        const users = await User.find();
+
+
+        res.json(users);
+
+
+    }
+
+
+    catch(error){
+
+
+        res.status(500).json(error);
+
+    }
+
 
 });
+
+
 
 
 
 app.get("/donations", async(req,res)=>{
 
-    const donations = await Donation.find();
 
-    res.json(donations);
+    try{
+
+
+        const donations = await Donation.find();
+
+
+        res.json(donations);
+
+
+    }
+
+
+    catch(error){
+
+
+        res.status(500).json(error);
+
+    }
+
 
 });
+
+
 
 
 
 app.get("/requests", async(req,res)=>{
 
-    const requests = await Request.find();
 
-    res.json(requests);
+    try{
+
+
+        const requests = await Request.find();
+
+
+        res.json(requests);
+
+
+    }
+
+
+    catch(error){
+
+
+        res.status(500).json(error);
+
+    }
+
 
 });
 
 
 
-// ================= SERVER =================
 
-app.listen(3000,()=>{
 
+// ================= MONGODB CONNECTION + SERVER =================
+
+
+// ================= MONGODB CONNECTION + SERVER =================
+
+mongoose.connect(process.env.MONGO_URI, {
+    serverSelectionTimeoutMS: 10000
+})
+.then(() => {
+    console.log("MongoDB Connected Successfully");
+})
+.catch((error) => {
+    console.log("MongoDB Connection Error:", error.message);
+});
+
+
+// ================= SERVER START =================
+
+app.listen(5000, () => {
     console.log("FoodBridge Server is Running Successfully");
-
 });
